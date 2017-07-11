@@ -15,7 +15,7 @@ function lunch
 	aosp_lunch $*
 
 	rm -rf Android.mk
-	local patch_folder=vendor/intel/utils/android_n/google_diff
+	local patch_folder=vendor/intel/utils/android_o/google_diff
 
     # Check if there is a list of files to parse and apply patches listed in them if any
 	for file in `find $patch_folder -type f 2>/dev/null` ; do
