@@ -39,6 +39,8 @@ KERNELFLINGER_SSL_LIBRARY := openssl
 # Avoid Watchdog truggered reboot
 BOARD_KERNEL_CMDLINE += iTCO_wdt.force_no_reboot=1
 
+BOARD_SEPOLICY_DIRS += device/intel/android_ia/sepolicy/boot-arch/android_ia
+
 # Show the "OEM unlocking" option in Android "Developer options"
 #PRODUCT_DEFAULT_PROPERTY_OVERRIDES += ro.frp.pst=/dev/block/by-name/android_persistent
 
@@ -60,6 +62,9 @@ BOARD_FLASHFILES += $(PRODUCT_OUT)/config.img
 BOARD_FLASHFILES += $(PRODUCT_OUT)/vendor.img
 BOARD_FLASHFILES += $(PRODUCT_OUT)/factory.img
 BOARD_FLASHFILES += $(TARGET_DEVICE_DIR)/flash.json
+{{#tos_partition}}
+BOARD_FLASHFILES += $(PRODUCT_OUT)/tos.img
+{{/tos_partition}}
 
 # -- OTA RELATED DEFINES --
 # tell build system where to get the recovery.fstab.
