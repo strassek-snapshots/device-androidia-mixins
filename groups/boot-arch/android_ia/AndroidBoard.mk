@@ -12,7 +12,11 @@ else
 out_flashfiles := $(PRODUCT_OUT)/$(TARGET_PRODUCT).flashfiles.$(TARGET_BUILD_VARIANT).$(USER).zip
 endif
 
-$(PRODUCT_OUT)/efi/installer.cmd:
+$(PRODUCT_OUT)/efi/installer.cmd: $(TARGET_DEVICE_DIR)/$(@F)
+	$(ACP) $(TARGET_DEVICE_DIR)/$(@F) $@
+	sed -i '/#/d' $@
+
+$(PRODUCT_OUT)/efi/flash.json: $(TARGET_DEVICE_DIR)/$(@F)
 	$(ACP) $(TARGET_DEVICE_DIR)/$(@F) $@
 	sed -i '/#/d' $@
 
@@ -161,4 +165,11 @@ $(BOOTLOADER_POLICY_OEMVARS): sign-efi-sig-list
 endif
 {{/blpolicy_use_efi_var}}
 {{/bootloader_policy}}
+
+
+GPT_INI2BIN := ./device/intel/common/gpt_bin/gpt_ini2bin.py
+
+$(BOARD_GPT_BIN): $(TARGET_DEVICE_DIR)/gpt.ini
+	$(hide) $(GPT_INI2BIN) $< > $@
+	$(hide) echo GEN $(notdir $@)
 
